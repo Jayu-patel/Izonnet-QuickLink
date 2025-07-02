@@ -1,6 +1,8 @@
 const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const Appointment = require("../models/Appointment")
+const { generateAppointmentPDF } = require("../utils/pdfService")
+const { sendAppointmentEmail } = require("../utils/bookingMail")
 
 const getUserAppointment=async(req,res)=>{
     try{
@@ -46,10 +48,23 @@ const bookApponitment=async(req,res)=>{
             docId,
             slotDate,
             slotTime,
-            userData,
             amount: docData?.fees,
             date: Date.now(),
         }
+
+        const appointment = {
+            name : userData.username,
+            doctorName: docData.name,
+            date: slotDate,
+            time: slotTime
+        }
+        const pdfBuffer = await generateAppointmentPDF(appointment);
+
+        const htmlContent = `
+            <h2>Appointment Confirmed</h2>
+            <p>Hi ${userData.username}, your appointment with Dr. ${docData.name} on ${slotDate} at ${slotTime} has been confirmed.</p>
+        `;
+        await sendAppointmentEmail(userData.email, "Appointment Confirmation", htmlContent, pdfBuffer);
 
         const newAppointment = new Appointment(appointmentData);
         await newAppointment.save();

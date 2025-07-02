@@ -13,16 +13,19 @@ import { ToastContainer } from 'react-toastify'
 import PaymentSuccess from './components/PaymentSuccess'
 import GenerateOtp from './pages/GenerateOtp'
 import ResetPassword from './pages/ResetPassword'
+import { jwtDecode } from 'jwt-decode'
 
 function App() {
-  const {setToken} = useContext(AppContext)
+  const {setToken, setUserId} = useContext(AppContext)
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get("token");
-    if (token) {
-      localStorage.setItem("token", token);
-      setToken(token)
+    const newToken = new URLSearchParams(window.location.search).get("token");
+    if (newToken) {
+      localStorage.setItem("token", newToken);
+      setToken(newToken)
+      setUserId(jwtDecode(newToken)?.id)
     }
   }, []);
+
   return (
     <div className='mx-4 sm:mx-[10%]'>
       <ToastContainer/>

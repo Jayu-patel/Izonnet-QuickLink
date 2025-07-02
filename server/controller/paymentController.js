@@ -43,7 +43,6 @@ const verifyPayment=async(req,res)=>{
             const userId = session.metadata.userId;
             const appointmentId = session.metadata.appointmentId;
 
-            console.log("id :", appointmentId)
             await Appointment.findByIdAndUpdate(appointmentId, {payment: true})
             return res.status(200).json({ success: true, message: 'Payment verified', session });
         } else {

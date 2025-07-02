@@ -141,21 +141,11 @@ const doctorProfile=async(req,res)=>{
 
 const updateProfile=async(req,res)=>{
     try{
-        const {fees, address, available} = req.body
+        const {fees, address, available, about, name} = req.body
         const {id} = req.doctor
 
-        await Doctor.findByIdAndUpdate(id, {fees, address, available})
+        await Doctor.findByIdAndUpdate(id, {fees, address, available, about, name})
         return res.status(200).json({message: "Profile Updated"})
-    }
-    catch(error){
-        return res.status(500).json({message: error.message})
-    }
-}
-
-const tryCatch=(req,res)=>{
-    try{
-        const {} = req.body
-        return res.status(200).json({message: "your_____message"})
     }
     catch(error){
         return res.status(500).json({message: error.message})

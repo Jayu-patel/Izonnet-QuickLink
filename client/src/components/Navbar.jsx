@@ -82,17 +82,25 @@ export default function Navbar() {
           :
           <button onClick={()=>{navigate('/login')}} className='bg-[#5f6fff] text-white px-8 py-3 rounded-full font-light hidden md:block cursor-pointer'>Create account</button>
         }
-        <img onClick={()=>{setShowMenu(true)}} className='w-6 md:hidden' src="/menu_icon.svg" alt="" />
-        <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
-          <div className='flex items-center justify-between px-5 py-6'>
-            <h1 className='text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold'>QuickClinic</h1>
-            <img className='w-7' onClick={()=>{setShowMenu(false)}} src="/cross_icon.png" alt="" />
-          </div>
-          <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
-            <NavLink className='px-4 py-2 rounded inline-block' onClick={()=>setShowMenu(false)} to={"/"}>HOME</NavLink>
-            <NavLink className='px-4 py-2 rounded inline-block' onClick={()=>setShowMenu(false)} to={"/doctors"}>ALL DOCTORS</NavLink>
-          </ul>
-        </div>
+        {
+          token ? 
+          <div>
+            <img onClick={()=>{setShowMenu(true)}} className='w-6 md:hidden' src="/menu_icon.svg" alt="" />
+            <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+              <div className='flex items-center justify-between px-5 py-6'>
+                <h1 className='text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold'>QuickClinic</h1>
+                <img className='w-7' onClick={()=>{setShowMenu(false)}} src="/cross_icon.png" alt="" />
+              </div>
+              <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
+                <NavLink className='px-4 py-2 rounded inline-block' onClick={()=>setShowMenu(false)} to={"/"}>HOME</NavLink>
+                <NavLink className='px-4 py-2 rounded inline-block' onClick={()=>setShowMenu(false)} to={"/doctors"}>ALL DOCTORS</NavLink>
+                <a href="http://localhost:5174" target="_blank" className='border my-auto px-2.5 py-0.5 rounded-full border-gray-500'>Admin panel</a>
+              </ul>
+            </div>
+          </div> :
+          <button onClick={()=>{navigate('/login')}} className='md:hidden bg-[#5f6fff] text-white px-8 py-3 rounded-full font-light cursor-pointer'>Create account</button>
+        }
+
       </div>
     </div>
   )

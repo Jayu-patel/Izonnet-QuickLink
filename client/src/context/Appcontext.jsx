@@ -36,7 +36,7 @@ const AppContextProvider = ({children}) => {
 
   const getDoctorsData = async () => {
     try{
-       axios.get('http://localhost:8000/api/doctor/getAllDoctors')
+       axios.get(`${import.meta.env.VITE_BACKEND_URL}/doctor/getAllDoctors`)
       .then((res) => {
         if(res?.status === 200){
           setDoctors(res?.data?.doctors || [{ok: false, message: "No doctors found"}]);
@@ -64,6 +64,12 @@ const AppContextProvider = ({children}) => {
   }, []);
 
   const fetchProfile = useCallback(async (id) => {
+    const currentToken = localStorage.getItem("token");
+
+    if (!id || !currentToken) {
+      console.warn("fetchProfile blocked: Missing token or id");
+      return;
+    }
     setIsLoading(true);
 
     const cachedUser = localStorage.getItem("currentUser");
@@ -72,9 +78,10 @@ const AppContextProvider = ({children}) => {
       setIsLoading(false);
       return;
     }
-
+    console.log("debug", localStorage.getItem("token"))
+    console.log("debug token", token)
     try {
-      const res = await axios.get(`http://localhost:8000/api/user/get_user/${id}`,
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/get_user/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -119,15 +126,14 @@ const AppContextProvider = ({children}) => {
 
   // 4. Value for the context
   const value = useMemo(() => ({
-    token,
-    setToken,
+    token, setToken,
     doctors,
-    userId,
+    userId, setUserId,
     userData,
     getDoctorsData,
     isLoading,
     reloadProfile,
-    logout
+    logout,
   }), [token, userId, userData, isLoading, doctors]);
 
   return (

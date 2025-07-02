@@ -35,7 +35,7 @@ export default function page() {
           
           setLoading(true)
 
-          axios.post('http://localhost:8000/api/user/register',{username, email, password, mobile},{withCredentials: true})
+          axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/register`,{username, email, password, mobile},{withCredentials: true})
           .then((res)=>{
               if(res.status !== 200){
                   toast.error(res.data.message);
@@ -65,7 +65,7 @@ export default function page() {
 
           setLoading(true)
 
-          axios.post('http://localhost:8000/api/user/login',{email,password},{withCredentials: true})
+          axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`,{email,password},{withCredentials: true})
           .then((res)=>{
               if(res.status !== 200){
                   toast.error(res.data.message);

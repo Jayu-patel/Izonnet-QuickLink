@@ -16,7 +16,9 @@ export default function DoctorProfile() {
         {
           address: profileData.address,
           fees: profileData.fees,
-          available: profileData.available
+          available: profileData.available,
+          about: profileData.about,
+          name: profileData.name,
         },
         {
           headers : {Authorization: `Bearer ${localStorage.getItem('doctorToken')}`}
@@ -54,7 +56,18 @@ export default function DoctorProfile() {
         </div>
 
         <div className='flex-1 border-stone-100 rounded-lg p-8 py-7 bg-white'>
-          <p className='flex items-center gap-2 text-3xl font-medium text-gray-700'>{profileData.name}</p>
+          <p className='flex items-center gap-2 text-3xl font-medium text-gray-700'>
+            {
+              isEdit ?
+              <input 
+                type='text' 
+                className='border-2 border-blue-600' 
+                value={profileData.name}
+                onChange={(e)=>{setProfileData(prev => ({...prev, name: e.target.value}))}}
+              /> :
+              profileData.name
+            }
+          </p>
           <div className='flex items-center gap-2 mt-1 text-gray-600'>
             <p>{profileData.degree} - {profileData.speciality}</p>
             <button className='py-0.5 px-2 border text-xs rounded-full'>{profileData.experience}</button>
@@ -62,13 +75,23 @@ export default function DoctorProfile() {
 
           <div>
             <p className='flex items-center gap-1 text-sm font-medium text-neutral-800 mt-3'>About:</p>
-            <p className='text-sm text-gray-600 max-w-[700px] mt-1'>{profileData.about}</p>
+            <p className='text-sm text-gray-600 max-w-[700px] mt-1'>
+              {
+                isEdit ?
+                <textarea className='w-[700px] h-[80px] border-2 border-blue-600' 
+                  type='text' 
+                  value={profileData.about}
+                  onChange={(e)=>{setProfileData(prev => ({...prev, about: e.target.value}))}}
+                /> :
+                profileData.about
+              }
+            </p>
           </div>
 
           <p className='text-gray-600 font-medium mt-4'>
             Appointment fee: 
             <span className='text-gray-800'>
-              $ {isEdit ? <input type="number" value={profileData.fees} onChange={(e)=>{setProfileData(prev => ({...prev, fees: e.target.value}))}} /> : profileData.fees}
+              $ {isEdit ? <input className='border-2 border-blue-600' type="number" value={profileData.fees} onChange={(e)=>{setProfileData(prev => ({...prev, fees: e.target.value}))}} /> : profileData.fees}
             </span>
           </p>
 
@@ -76,12 +99,12 @@ export default function DoctorProfile() {
             <p>Address:</p>
             <p className='text-sm'>
               {
-                isEdit ? <input type="text" value={profileData?.address?.line1} onChange={(e)=>{setProfileData(prev=>({...prev, address : {...prev.address, line1: e.target.value}}))}} /> :
+                isEdit ? <input className='border-2 border-blue-600' type="text" value={profileData?.address?.line1} onChange={(e)=>{setProfileData(prev=>({...prev, address : {...prev.address, line1: e.target.value}}))}} /> :
                 profileData?.address?.line1
               }
               <br />
               {
-                isEdit ? <input type="text" value={profileData?.address?.line2} onChange={(e)=>{setProfileData(prev=>({...prev, address : {...prev.address, line2: e.target.value}}))}} /> :
+                isEdit ? <input className='border-2 border-blue-600' type="text" value={profileData?.address?.line2} onChange={(e)=>{setProfileData(prev=>({...prev, address : {...prev.address, line2: e.target.value}}))}} /> :
                 profileData?.address?.line2
               }
             </p>

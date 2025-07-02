@@ -11,7 +11,7 @@ const DoctorContextProvider = ({ children }) => {
 
   const getAllApointments=()=>{
     try{
-      axios.get(`http://localhost:3000/api/doctor/appointment`, {headers: {Authorization: `Bearer ${localStorage.getItem('doctorToken')}`}})
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/doctor/appointment`, {headers: {Authorization: `Bearer ${localStorage.getItem('doctorToken')}`}})
       .then(res=>{
         if(res.status === 200){
           setAppointments(res.data.appointments)
