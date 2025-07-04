@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 
+const upload = require("../middleware/multer")
 const controller = require("../controller/doctorController")
 const doctorAuth = require("../middleware/doctorAuth").doctorAuth
 
@@ -13,6 +14,6 @@ router.post("/login", controller.login)
 router.post("/complete-appointment", doctorAuth, controller.appointmentComplete)
 router.post("/cancel-appointment", doctorAuth, controller.appointmentCancel)
 
-router.put("/update-profile", doctorAuth, controller.updateProfile)
+router.put("/update-profile", upload.single('image'), doctorAuth, controller.updateProfile)
 
 module.exports = router

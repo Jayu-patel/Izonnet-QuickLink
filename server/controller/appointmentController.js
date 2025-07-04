@@ -62,7 +62,7 @@ const bookApponitment=async(req,res)=>{
 
         const htmlContent = `
             <h2>Appointment Confirmed</h2>
-            <p>Hi ${userData.username}, your appointment with Dr. ${docData.name} on ${slotDate} at ${slotTime} has been confirmed.</p>
+            <p>Hi ${userData.username}, your appointment with ${docData.name} on ${slotDate} at ${slotTime} has been confirmed.</p>
         `;
         await sendAppointmentEmail(userData.email, "Appointment Confirmation", htmlContent, pdfBuffer);
 

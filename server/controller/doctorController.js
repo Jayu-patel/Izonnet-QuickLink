@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const Doctor = require('../models/Doctor')
 const Appointment = require('../models/Appointment')
+const cloudinary = require('cloudinary').v2
 
 const login=async(req,res)=>{
     try{
         const {email, password} = req.body
-
+        
         const doctor = await Doctor.findOne({email})
         if(!doctor){
             return res.status(404).json({message: "Invalid Credentials"})
@@ -143,8 +144,27 @@ const updateProfile=async(req,res)=>{
     try{
         const {fees, address, available, about, name} = req.body
         const {id} = req.doctor
+        const imageFile = req.file
 
-        await Doctor.findByIdAndUpdate(id, {fees, address, available, about, name})
+        const existingDoctor = await Doctor.findById(id)
+
+        let imageUrl
+        if(imageFile){
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path,{resource_type: "image"})
+            imageUrl = imageUpload.secure_url
+        }
+
+        if(existingDoctor){
+            existingDoctor.fees = fees || existingDoctor.fees
+            existingDoctor.address = JSON.parse(address) || existingDoctor.address
+            existingDoctor.available = available || existingDoctor.available
+            existingDoctor.about = about || existingDoctor.about
+            existingDoctor.name = name || existingDoctor.name
+            existingDoctor.image = imageUrl || existingDoctor.image
+        }
+
+        await existingDoctor.save()
+
         return res.status(200).json({message: "Profile Updated"})
     }
     catch(error){

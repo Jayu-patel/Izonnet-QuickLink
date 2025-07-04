@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { AppContext } from '../context/Appcontext';
+import {Navigate} from 'react-router-dom'
 
 export default function MyProfile() {
   const {reloadProfile: loadUserProfileData, userData : data, isLoading, token} = useContext(AppContext)
@@ -21,6 +22,8 @@ export default function MyProfile() {
       line2: "Enter you details",
     }
   })
+
+  
 
   const updateUserProfile=async()=>{
     setLoading(true)
@@ -82,6 +85,8 @@ export default function MyProfile() {
     }));
   }, [data]);
 
+  if(!token) return <Navigate to={'/'} />
+
   if(isLoading || loading) return <div className='w-[100%] h-[calc(100vh-100px)] grid place-items-center'> <Loader/> </div>
   return (
     <div className='max-w-lg flex flex-col gap-2 text-sm'>
@@ -90,6 +95,7 @@ export default function MyProfile() {
         <label htmlFor="image">
           <div className='inline-block relative cursor-pointer'>
             <img className='w-36 rounded opacity-75' src={image ? URL.createObjectURL(image) : userData.image} alt="" />
+            {/* <img className='w-10 absolute bottom-12 right-12' src={image ? "/img" : '/upload_icon.png'} alt="" /> */}
             <img className='w-10 absolute bottom-12 right-12' src={image ? "/img" : '/upload_icon.png'} alt="" />
           </div>
           <input type="file" id="image" hidden onChange={e=> setImage(e.target.files[0])} />

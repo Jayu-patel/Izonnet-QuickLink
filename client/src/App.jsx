@@ -14,6 +14,7 @@ import PaymentSuccess from './components/PaymentSuccess'
 import GenerateOtp from './pages/GenerateOtp'
 import ResetPassword from './pages/ResetPassword'
 import { jwtDecode } from 'jwt-decode'
+import CancelPayment from './components/CancelPayment'
 
 function App() {
   const {setToken, setUserId} = useContext(AppContext)
@@ -42,6 +43,7 @@ function App() {
         <Route path='/reset-password' element={<ResetPassword/>} />
 
         <Route path='/success-payment' element={<PaymentSuccess/>} />
+        <Route path='/cancel-payment' element={<CancelPayment/>} />
       </Routes>
     </div>
   )

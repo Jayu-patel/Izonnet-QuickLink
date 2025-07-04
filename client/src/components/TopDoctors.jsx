@@ -34,7 +34,7 @@ export default function TopDoctors() {
                 ))
             }
         </div>
-        <button onClick={()=>{navigate('/user/doctors/allDocs')}} className='cursor-pointer bg-blue-50 text-gray-600 px-12 py-3 rounded-full mt-10'>more</button>
+        <button onClick={()=>{navigate('/doctors')}} className='cursor-pointer bg-blue-50 text-gray-600 px-12 py-3 rounded-full mt-10'>more</button>
     </div>
     )
 }

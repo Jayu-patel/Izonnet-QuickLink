@@ -112,7 +112,7 @@ export const doctors = [
     },
     {
         _id: 'doc7',
-        name: 'Dr. Christopher Davis',
+        name: 'Dr. Christopher Davis', //christopher2davis@gmail.com
         image: '/doc7.png',
         speciality: 'General physician',
         degree: 'MBBS',
@@ -126,7 +126,7 @@ export const doctors = [
     },
     {
         _id: 'doc8',
-        name: 'Dr. Timothy White',
+        name: 'Dr. Timothy White', //timothy@gmail.com
         image: '/doc8.png',
         speciality: 'Gynecologist',
         degree: 'MBBS',
@@ -154,7 +154,7 @@ export const doctors = [
     },
     {
         _id: 'doc10',
-        name: 'Dr. Jeffrey King',
+        name: 'Dr. Jeffrey King', //jeffrey@gmail.com
         image: '/doc10.png',
         speciality: 'Pediatricians',
         degree: 'MBBS',

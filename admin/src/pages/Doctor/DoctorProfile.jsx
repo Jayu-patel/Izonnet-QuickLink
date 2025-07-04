@@ -9,17 +9,21 @@ import { toast } from 'react-toastify'
 export default function DoctorProfile() {
   const {dToken, profileData, getProfileData, setProfileData} =  useContext(DoctorContext)
   const [isEdit, setIsEdit] = useState(false)
+  const [image, setImage] = useState(null)
 
   const updateProfile=()=>{
     try{
+      const formData = new FormData()
+
+      formData.append("address", JSON.stringify(profileData.address))
+      formData.append("name", profileData.name)
+      formData.append("fees", profileData.fees)
+      formData.append("available", profileData.available)
+      formData.append("about", profileData.about)
+      formData.append("image", image)
+
       axios.put(`${import.meta.env.VITE_BACKEND_URL}/doctor/update-profile`,
-        {
-          address: profileData.address,
-          fees: profileData.fees,
-          available: profileData.available,
-          about: profileData.about,
-          name: profileData.name,
-        },
+        formData,
         {
           headers : {Authorization: `Bearer ${localStorage.getItem('doctorToken')}`}
         }
@@ -47,12 +51,26 @@ export default function DoctorProfile() {
       getProfileData()
     }
   },[dToken])
+
+  useEffect(()=>{
+    console.log("Prof data: ",profileData)
+  },[])
   return profileData && (
     <div>
 
       <div className='flex flex-col gap-4 m-5'>
         <div>
-          <img className='bg-[#5f6fff] w-full sm:max-w-64 rounded-lg' src={profileData.image} alt="" />
+          {
+            isEdit ?
+            <label htmlFor="image">
+              <div className='inline-block relative cursor-pointer'>
+                <img className='w-full sm:max-w-64 rounded-lg opacity-75' src={image ? URL.createObjectURL(image) : profileData.image} alt="" />
+                <img className='w-[50%] absolute bottom-[25%] right-[25%]' src={image ? "/img" : '/upload_icon.png'} alt="" />
+              </div>
+              <input type="file" id="image" hidden onChange={e=> setImage(e.target.files[0])} />
+          </label> :
+            <img className='bg-[#5f6fff] w-full sm:max-w-64 rounded-lg' src={profileData.image} alt="" />
+          }
         </div>
 
         <div className='flex-1 border-stone-100 rounded-lg p-8 py-7 bg-white'>

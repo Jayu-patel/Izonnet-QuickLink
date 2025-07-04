@@ -10,7 +10,6 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      // Check if user already exists
       let user = await User.findOne({ email: profile.emails[0].value });
 
       if (!user) {

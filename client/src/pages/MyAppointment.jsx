@@ -31,7 +31,6 @@ export default function MyAppointment() {
             .then(res=>{
                 if(res?.status === 200){
                     setAppointsments(res?.data?.appointments)
-                    console.log(res?.data?.appointments?.reverse())
                 }
                 else{
                     toast.error("Can't find any appointments");
@@ -92,7 +91,7 @@ export default function MyAppointment() {
                 if(res.status === 200){
                     const stripe = await stripePromise;
                     localStorage.setItem("sessionID", res.data.id)
-                    await stripe.redirectToCheckout({ sessionId: res.data.id }).then;
+                    stripe.redirectToCheckout({ sessionId: res.data.id });
                 }
             })
             .catch((err) => {
@@ -119,16 +118,26 @@ export default function MyAppointment() {
         console.log(appointments)
     },[appointments])
 
-    useEffect(()=>{},[])
 
     if(loading) return <div className='w-[100%] h-[calc(100vh-100px)] grid place-items-center'> <Loader/> </div>
+    if(!loading && appointments.length === 0){
+        return (
+            <div>
+                <h1 className='text-2xl font-semibold'>No appointments found. Book your first appointment now!</h1>
+                <button 
+                    onClick={()=>{navigate('/doctors')}}
+                    className='mt-3 px-4 py-2 border border-black rounded-md cursor-pointer'
+                >Book Appointment</button>
+            </div>
+        )
+    }
     return (
     <div>
         <p className='pb-3 mt-12 font-medium text-zinc-700 border-b'>My Appointment</p>
         <div>
             {
                 appointments?.map((item,index)=>(
-                    <div className='grid grid-cols-[1fr_2fr] gap=4 sm:flex sm:gap-6 py-6 border-b' key={index}>
+                    <div className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-6 border-b' key={index}>
                         <div>
                             <img className='w-32 bg-indigo-50' src={item.docId.image} alt="" />
                         </div>

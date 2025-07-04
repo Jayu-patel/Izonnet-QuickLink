@@ -40,7 +40,6 @@ const AppContextProvider = ({children}) => {
       .then((res) => {
         if(res?.status === 200){
           setDoctors(res?.data?.doctors || [{ok: false, message: "No doctors found"}]);
-          console.log(res.data.doctors)
         }
         else {
           if(res?.response?.data?.message){
@@ -55,7 +54,7 @@ const AppContextProvider = ({children}) => {
       });
     }
     catch(err) {
-      console.error("Error fetching doctors data:", err);
+      toast.error(err.message)
     }
   }
 
@@ -78,8 +77,6 @@ const AppContextProvider = ({children}) => {
       setIsLoading(false);
       return;
     }
-    console.log("debug", localStorage.getItem("token"))
-    console.log("debug token", token)
     try {
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/get_user/${id}`,
         {

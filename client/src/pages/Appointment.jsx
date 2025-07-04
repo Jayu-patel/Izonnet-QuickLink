@@ -14,6 +14,7 @@ export default function Appointment() {
     const [docSlots, setDocSlots] = useState([])
     const [slotIndex, setSlotIndex] = useState(0)
     const [slotTime, setSlotTime] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -29,6 +30,7 @@ export default function Appointment() {
             toast.warn("Log in to book appointment")
         }
         else{
+            setLoading(true)
             if(!slotTime) return toast.error("Please select appointment time")
             try{
                 const date = docSlots[slotIndex][0].datetime
@@ -55,15 +57,18 @@ export default function Appointment() {
                         getDoctorsData()
                         navigate("/my-appointment")
                     }
+                    setLoading(false)
                 })
                 .catch((err) => {
                     if(err?.response?.data?.message){
-                    toast.error(err?.response?.data?.message);
+                        toast.error(err?.response?.data?.message);
                     }
+                    setLoading(false)
                 });
             }
             catch(error){
                 console.log(error?.message)
+                setLoading(false)
             }
         }
     }
@@ -177,7 +182,11 @@ export default function Appointment() {
                         ))
                     }
                 </div>
-                <button onClick={bookAppointment} className='bg-[#5f6fff] text-white text-sm font-light px-14 py-3 rounded-full my-6 cursor-pointer'>book an Appointment</button>
+                {
+                    loading ?
+                    <button disabled className='bg-[#061ace] text-white text-sm font-light px-14 py-3 rounded-full my-6 cursor-pointer'>Loading...</button> :
+                    <button onClick={bookAppointment} className='bg-[#5f6fff] text-white text-sm font-light px-14 py-3 rounded-full my-6 cursor-pointer'>book an Appointment</button>
+                }
             </div>
 
             <RelatedDoctors docId={docId} speciality={docInfo.speciality}/>

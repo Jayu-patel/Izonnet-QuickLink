@@ -49,7 +49,7 @@ const addDoctor=async(req,res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newDoc = new Doctor({name, email, password: hashedPassword, speciality, degree, experience, about, fees, address, image: imageUrl, date: Date.now()})
+        const newDoc = new Doctor({name, email, password: hashedPassword, speciality, degree, experience, about, fees, address: JSON.parse(address), image: imageUrl, date: Date.now()})
         await newDoc.save()
 
         return res.status(200).json({message: "Doctor Added"})

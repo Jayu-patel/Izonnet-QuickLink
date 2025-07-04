@@ -1,10 +1,10 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Loader from '../../components/Loader'
 import { AdminContext } from '../../context/AdminContext'
 import { AppContext } from '../../context/AppContext'
 
 export default function Home() {
-  const {aToken, dashData, getDashData} = useContext(AdminContext)
+  const {aToken, dashData, getDashData, cancelAppointment} = useContext(AdminContext)
   const {slotDateFormat} = useContext(AppContext)
 
   useEffect(()=>{

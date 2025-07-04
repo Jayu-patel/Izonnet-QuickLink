@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom'
 
 export default function Header() {
     return (
@@ -6,7 +5,7 @@ export default function Header() {
         {/* LEFT */}
         <div className='md:w-1/2 flex flex-col items-start justify-center gap-4 py-10 m-auto md:py-[10vw] md:mb-[-30px]'>
             <p className='text-3xl md:text-4xl lg:text-5xl text-white font-semibold leading-tight md:leading-tight lg:leading-tight'>
-                Book Appointment <br/> With Trusted Doctors
+                Easy Appointments <br/> With Trusted Doctors
             </p>
             <div className='flex flex-col md:flex-row items-center gap-3 text-white text-sm font-light'>
                 <img className='w-28' src="/group_profiles.png" alt="" />
@@ -19,7 +18,7 @@ export default function Header() {
 
         {/* RIGHT */}
         <div className='md:w-1/2 relative'>
-            <img className='w-full md:absolute bottom-0 h-auto rounded-lg' src="/header_img.png" alt="" />
+            <img className='w-full md:absolute bottom-10 h-auto rounded-lg' src="/header_img2.png" alt="" />
         </div>
     </div>
     )

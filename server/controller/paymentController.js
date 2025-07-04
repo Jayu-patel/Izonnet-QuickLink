@@ -20,7 +20,7 @@ const checkoutSession=async(req,res)=>{
         }],
         mode: 'payment',
         success_url: `http://localhost:5173/success-payment?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `http://localhost:5173/`,
+        cancel_url: `http://localhost:5173/cancel-payment`,
         metadata: {
             appointmentId,
             userId: id,
