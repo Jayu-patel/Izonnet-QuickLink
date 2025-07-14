@@ -30,8 +30,8 @@ export default function Appointment() {
             toast.warn("Log in to book appointment")
         }
         else{
-            setLoading(true)
             if(!slotTime) return toast.error("Please select appointment time")
+            setLoading(true)
             try{
                 const date = docSlots[slotIndex][0].datetime
 
@@ -67,7 +67,7 @@ export default function Appointment() {
                 });
             }
             catch(error){
-                console.log(error?.message)
+                toast.error(error?.message)
                 setLoading(false)
             }
         }

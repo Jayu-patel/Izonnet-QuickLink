@@ -9,6 +9,7 @@ const AdminContextProvider = ({ children }) => {
     const [doctors, setDoctors] = useState([]);
     const [appointments, setAppointments] = useState([])
     const [dashData, setDeshData] = useState([])
+    const [specialities, setSpecialities] = useState([])
 
     const months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -30,8 +31,7 @@ const AdminContextProvider = ({ children }) => {
         axios.get(`${import.meta.env.VITE_BACKEND_URL}/doctor/getAllDoctors`)
         .then((res)=>{
             if(res?.status === 200){
-            console.log(res?.data?.doctors);
-            setDoctors(res?.data?.doctors);
+                setDoctors(res?.data?.doctors);
             }
             else {
             if(res?.response?.data?.message){
@@ -112,7 +112,7 @@ const AdminContextProvider = ({ children }) => {
             });
         }
         catch(err){
-            console.log(err?.message)
+            toast.error(err?.message);
         }
     }
 
@@ -141,19 +141,39 @@ const AdminContextProvider = ({ children }) => {
         }
     }
 
+    const getSpecialities=async()=>{
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/speciality/get-all-specialities`)
+        .then((res)=>{
+            if(res?.status === 200){
+                setSpecialities(res?.data?.specialities);
+            }
+            else {
+                if(res?.response?.data?.message){
+                    toast.error(res?.response?.data?.message);
+                }
+            }
+        })
+        .catch((err)=>{
+            if(err?.response?.data?.message){
+                toast.error(err?.response?.data?.message);
+            }
+        });
+    }
+
+    useEffect(()=>{
+        getSpecialities();
+    },[])
+
     const value = {
-        aToken,
-        setAToken,
-        doctors,
-        getDoctorsData,
+        aToken, setAToken,
+        doctors, getDoctorsData,
         changeAvailablity,
-        appointments,
-        getAllAppointments,
+        appointments, getAllAppointments,
         calculateAge,
         slotDateFormat,
         cancelAppointment,
-        dashData,
-        getDashData
+        dashData, getDashData,
+        specialities, getSpecialities
     };
 
     useEffect(()=>{

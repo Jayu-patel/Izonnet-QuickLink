@@ -15,6 +15,7 @@ const adminRoutes = require("./routes/adminRoute")
 const doctorRoutes = require("./routes/doctorRoute")
 const authRoutes = require("./routes/authRoute")
 const paymentRoutes = require("./routes/paymentRoute")
+const specialityRoutes = require("./routes/specialityRoute")
 
 connectCloudinary()
 const app = express()
@@ -54,7 +55,8 @@ app.use("/api/admin", adminRoutes)
 app.use("/api/appointment", appointmentRoutes)
 app.use("/api/doctor", doctorRoutes)
 app.use("/api/payment", paymentRoutes)
-app.use("/auth", authRoutes);
+app.use("/api/speciality", specialityRoutes)
+app.use("/auth", authRoutes)
 
 app.listen(8000, ()=>{
     console.log("server is running on port 8000")

@@ -15,6 +15,10 @@ import DoctorProfile from './pages/Doctor/DoctorProfile'
 import { AdminContext } from './context/AdminContext'
 import { DoctorContext } from './context/DoctorContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import EditDoctor from './pages/Admin/EditDoctor'
+import AddSpeciality from './pages/Admin/AddSpeciality'
+import Specialities from './pages/Admin/Specialities'
+import EditSpeciality from './pages/Admin/EditSpeciality'
 
 function App() {
   const {aToken} = useContext(AdminContext)
@@ -35,7 +39,11 @@ function App() {
           <Route path='/admin-dashboard' element={<Dashboard/>} />
           <Route path='/all-appointments' element={<AllApointments/>} />
           <Route path='/add-doctor' element={<AddDoctor/>} />
+          <Route path='/edit-doctor/:docId' element={<EditDoctor/>} />
           <Route path='/doctor-list' element={<DoctorsList/>} />
+          <Route path='/specialities' element={<Specialities/>} />
+          <Route path='/add-speciality' element={<AddSpeciality/>} />
+          <Route path='/edit-speciality/:id' element={<EditSpeciality/>} />
 
           <Route path='/doctor-dashboard' element={<DoctorDashboard/>} />
           <Route path='/doctor-appointments' element={<DoctorAppointment/>} />

@@ -20,7 +20,6 @@ export default function Doctors() {
 
     useEffect(()=>{
         applyFilter()
-        console.log(filterDoc)
     },[doctors,speciality])
 
     return (

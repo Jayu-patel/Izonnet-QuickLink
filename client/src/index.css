@@ -4,6 +4,15 @@ html {
   scroll-behavior: smooth;
 }
 
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
 .active hr{
     @apply block
 }

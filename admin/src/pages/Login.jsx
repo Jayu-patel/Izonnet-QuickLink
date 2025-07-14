@@ -5,18 +5,28 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom'
 import { DoctorContext } from '../context/DoctorContext';
 import { AdminContext } from '../context/AdminContext';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
     const [state, setState] = useState('Admin')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [show, setShow] = useState(false);
 
     const {setAToken} = useContext(AdminContext)
     const {setDToken} = useContext(DoctorContext)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const navigate = useNavigate()
 
     const onSubmit=()=>{
+        if(!email) return toast.error("Please Enter your email!");
+        if(email.includes(" ") || !emailRegex.test(email)) return toast.error("Please enter a valid email address.");
+
+        if(!password) return toast.error("Please Enter your password!");
+        if(password.includes(" ")) return toast.error("Passwod cannot contain spaces");
+        if(password.length < 5) return toast.error("Password must be at least 5 characters long.");
+        
         try{
             if(state === 'Admin'){
                 setLoading(true)
@@ -39,7 +49,6 @@ export default function Login() {
                 })
                 .catch((err) =>{
                     if(err?.response?.data?.message){
-                        console.log(err?.response?.data?.message);
                         toast.error(err?.response?.data?.message)
                     }
                     setLoading(false)
@@ -66,7 +75,6 @@ export default function Login() {
                 })
                 .catch((err) =>{
                     if(err?.response?.data?.message){
-                        console.log(err?.response?.data?.message);
                         toast.error(err?.response?.data?.message)
                     }
                     setLoading(false)
@@ -85,11 +93,34 @@ export default function Login() {
             <p className='text-2xl font-semibold m-auto'><span className='text-[#5f6fff]'>{state}</span> Login</p>
             <div className='w-full'>
                 <p>Email</p>
-                <input onChange={e=>setEmail(e.target.value)} value={email} className='border border-[#dadada] rounded w-full p-2 mt-1' type='email' required />
+                <input 
+                    onChange={e=>setEmail(e.target.value)} 
+                    value={email} className='border border-[#dadada] rounded w-full p-2 mt-1' 
+                    type='email' 
+                    required 
+                    placeholder='Enter your email'
+                />
             </div>
             <div className='w-full'>
                 <p>Password</p>
-                <input onChange={e=>setPassword(e.target.value)} value={password} className='border border-[#dadada] rounded w-full p-2 mt-1' type='password' required />
+                {/* <input onChange={e=>setPassword(e.target.value)} value={password} className='border border-[#dadada] rounded w-full p-2 mt-1' type='password' required /> */}
+                <div className='relative'>
+                    <input
+                        type={show ? 'text' : 'password'}
+                        value={password}
+                        onChange={e=>{setPassword(e.target.value)}}
+                        placeholder="Enter your password"
+                        className="w-full border border-zinc-300 rounded p-2 mt-1"
+                    />
+
+                    <button
+                        type="button"
+                        onClick={() => setShow(prev => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+                        aria-label={show ? 'Hide password' : 'Show password'}
+                    > {show ? <EyeOff size={18} /> : <Eye size={18} />} 
+                    </button>
+                </div>
             </div>
             <button onClick={onSubmit} className={`${loading ? "bg-[#383e71]" : "bg-[#5f6fff]"} text-white w-full py-2 rounded-md text-base cursor-pointer`}>
                 {

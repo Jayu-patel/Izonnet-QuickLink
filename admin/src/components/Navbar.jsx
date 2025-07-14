@@ -34,7 +34,7 @@ export default function AdminNavbar() {
                 showPopup={showPopup}
                 handleConfirm={logout}
                 handleCancel={cancelLogout}
-                header={"Logout confirmation"}
+                header={"Logout Confirmation"}
                 message={"Are you sure you want to logout?"} 
                 btnMessage={"Log Out"} 
             />

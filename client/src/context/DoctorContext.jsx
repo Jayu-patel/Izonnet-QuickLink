@@ -15,7 +15,6 @@ const DoctorContextProvider = ({ children }) => {
       .then(res=>{
         if(res.status === 200){
           setAppointments(res.data.appointments)
-          console.log(res.data.appointments)
         }
       })
       .catch((err)=>{

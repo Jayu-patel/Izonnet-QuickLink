@@ -1,10 +1,28 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import { AppContext } from '../../context/AppContext'
+import ConfirmationPopup from '../../components/Pop-up'
 
 export default function Appointments() {
   const {aToken, appointments, getAllAppointments, cancelAppointment} = useContext(AdminContext)
   const {calculateAge, slotDateFormat} = useContext(AppContext)
+
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null)
+
+  const handleSubmit = (appointmentId) => {
+    setSelectedAppointmentId(appointmentId)
+    setShowPopup(true)
+  }
+
+  const handleConfirm=()=>{
+    cancelAppointment(selectedAppointmentId)
+    setShowPopup(false)
+  }
+  const handleCancel=()=>{
+    setShowPopup(false)
+  }
+  
 
   useEffect(()=>{
     if(aToken){
@@ -14,7 +32,15 @@ export default function Appointments() {
 
   return (
     <div className='w-full max-w-6xl m-5'>
-      <p className='mb-3 text-lg font-medium'>All Appointments</p>
+      <ConfirmationPopup
+          showPopup={showPopup}
+          handleConfirm={handleConfirm}
+          handleCancel={handleCancel}
+          header={"Remove Appointment"}
+          message={"Are you sure you want to remove this appointment?"}
+          btnMessage={"Remove"}
+      />
+      <p className='mb-3 md:text-2xl text-xl font-semibold'>All Appointments</p>
       <div className='bg-white border rounded text-sm max-h-[80vh] overflow-y-scroll'>
         <div className='hidden sm:grid grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] grid-flow-col py-3 px-6 border-b'>
           <p>#</p>
@@ -46,7 +72,7 @@ export default function Appointments() {
                 <p className='text-red-400 text-xs font-medium'>Cancelled</p> :
                   item.isCompleted ?
                   <p className='text-green-400 text-xs font-medium'>Completed</p> :
-                  <img onClick={()=>{cancelAppointment(item._id)}} src="/cancel_icon.svg" alt="X"  className='cursor-pointer'/>
+                  <img onClick={()=>{handleSubmit(item._id)}} src="/cancel_icon.svg" alt="X"  className='cursor-pointer'/>
               }
             </div>
           ))

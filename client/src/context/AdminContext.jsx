@@ -31,7 +31,6 @@ const AdminContextProvider = ({ children }) => {
       axios.get('/api/admin/doctor')
       .then((res)=>{
         if(res?.status === 200){
-          console.log(res?.data?.doctors);
           setDoctors(res?.data?.doctors);
         }
         else {
@@ -113,7 +112,7 @@ const AdminContextProvider = ({ children }) => {
           });
       }
       catch(err){
-          console.log(err?.message)
+          toast.error(err?.message);
       }
   }
 

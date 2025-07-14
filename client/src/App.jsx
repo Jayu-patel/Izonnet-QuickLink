@@ -24,6 +24,9 @@ function App() {
       localStorage.setItem("token", newToken);
       setToken(newToken)
       setUserId(jwtDecode(newToken)?.id)
+
+      const cookie = document.cookie.split("; ").find((row) => row.startsWith("temp_auth_token="))?.split("=")[1];
+      console.log("my-cookie", cookie)
     }
   }, []);
 

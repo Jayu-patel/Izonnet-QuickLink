@@ -52,9 +52,6 @@ export default function DoctorProfile() {
     }
   },[dToken])
 
-  useEffect(()=>{
-    console.log("Prof data: ",profileData)
-  },[])
   return profileData && (
     <div>
 

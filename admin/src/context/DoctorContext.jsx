@@ -21,7 +21,6 @@ const DoctorContextProvider = ({ children }) => {
       .then(res=>{
         if(res.status === 200){
           setAppointments(res.data.appointments)
-          console.log(res.data.appointments)
         }
       })
       .catch((err)=>{
@@ -97,7 +96,6 @@ const DoctorContextProvider = ({ children }) => {
       .then(res=>{
         if(res.status === 200){
           setDashData(res.data.dashData)
-          console.log(res.data.dashData)
         }
       })
       .catch((err)=>{
@@ -122,7 +120,6 @@ const DoctorContextProvider = ({ children }) => {
       .then(res=>{
         if(res.status === 200){
           setProfileData(res.data.profileData)
-          console.log(res.data.profileData)
         }
       })
       .catch((err)=>{
