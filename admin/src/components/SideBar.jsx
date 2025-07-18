@@ -37,7 +37,7 @@ export default function SideBar() {
                     {
                         adminNavLinks.map((link, index) => {
                             return (
-                                <NavLink key={index} to={link.href} className={({isActive})=> `flex items-center gap-3 px-3 py-3.5 md:px-9 md:min-w-72 cursor-pointer ${isActive ? 'bg-[#f2f3ff] border-r-4 border-[#5f6fff]' : '' }`}>
+                                <NavLink key={index} to={link.href} className={({isActive})=> `flex items-center gap-3 px-3 py-3.5 md:px-9 md:min-w-72 cursor-pointer hover:bg-[#f2f3ff] transition-all ${isActive ? 'bg-[#f2f3ff] border-r-4 border-[#5f6fff] [&_span]:text-[#5f6fff] [&_p]:text-[#5f6fff]' : '' }`}>
                                     <span>{link.icon}</span>
                                     <p className='hidden md:block'>{link.label}</p>
                                 </NavLink>
@@ -52,7 +52,7 @@ export default function SideBar() {
                     {
                         doctorNavlinks.map((link, index) => {
                             return (
-                                <NavLink key={index} to={link.href} className={({isActive})=> `flex items-center gap-3 px-3 py-3.5 md:px-9 md:min-w-72 cursor-pointer ${isActive ? 'bg-[#f2f3ff] border-r-4 border-[#5f6fff]' : '' }`}>
+                                <NavLink key={index} to={link.href} className={({isActive})=> `flex items-center gap-3 px-3 py-3.5 md:px-9 md:min-w-72 cursor-pointer hover:bg-[#f2f3ff] transition-all ${isActive ? 'bg-[#f2f3ff] border-r-4 border-[#5f6fff] [&_span]:text-[#5f6fff] [&_p]:text-[#5f6fff]' : '' }`}>
                                     <span>{link.icon}</span>
                                     <p className='hidden md:block'>{link.label}</p>
                                 </NavLink>

@@ -25,7 +25,7 @@ const login=async(req,res)=>{
                 httpOnly: true, sameSite: 'Lax', secure: false, maxAge: 60 * 60 * 24 * 7,
             });
 
-            return res.status(200).json({token, success: true});
+            return res.status(200).json({token, id: existingAdmin._id, success: true});
         }
         else{
             return res.status(400).json({message: "Invalid Password"})
@@ -199,6 +199,70 @@ const getDashboardData=async(req,res)=>{
     }
 }
 
+const getAdminProfile=async(req,res)=>{
+    try{
+        const {id} = req.params
+        const admin = await Admin.findById(id).select('-password')
+        if(!admin) return res.status(404).json({message: "Admin not found"})
+        
+        const allAdmin = await Admin.find({})
+        const {email, username} = admin
+        
+        return res.status(200).json({
+            totalAdmins: allAdmin.length,
+            email,
+            username
+        })
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
+const updateProfile=async(req,res)=>{
+    try{
+        const {id, email, username} = req.body
+
+        const existingAdmin = await Admin.findById(id).select('-password')
+        if(!existingAdmin) return res.status(404).json({message: "Admin not found on database"});
+
+        existingAdmin.username = username || existingAdmin.username
+        existingAdmin.email = email || existingAdmin.email
+
+        await existingAdmin.save()
+
+        return res.status(200).json({message: "Profile updated!"})
+
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
+const updatePassword=async(req,res)=>{
+    try{
+        const {id, oldPassword, newPassword} = req.body
+
+        const admin = await Admin.findById(id)
+
+        const validPass = await bcrypt.compare(oldPassword, admin.password)
+        if(validPass){
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+            admin.password = hashedPassword
+            await admin.save()
+            return res.status(200).json({message: "Password Updated"})
+        }
+        else{
+            return res.status(400).json({message: "You Entered Invalid Password"})
+        }
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
 module.exports = {
     login,
     register,
@@ -208,5 +272,8 @@ module.exports = {
     cancelAppointment,
     getDashboardData,
     updateDoctor,
-    removeDoctor
+    removeDoctor,
+    getAdminProfile,
+    updateProfile,
+    updatePassword
 }

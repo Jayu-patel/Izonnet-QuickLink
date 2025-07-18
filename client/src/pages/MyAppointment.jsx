@@ -30,7 +30,7 @@ export default function MyAppointment() {
             })
             .then(res=>{
                 if(res?.status === 200){
-                    setAppointsments(res?.data?.appointments)
+                    setAppointsments(res?.data?.appointments?.reverse())
                 }
                 else{
                     toast.error("Can't find any appointments");
@@ -111,7 +111,6 @@ export default function MyAppointment() {
         else{
             navigate("/")
         }
-        console.log(appointments)
     },[userId])
 
     useEffect(()=>{

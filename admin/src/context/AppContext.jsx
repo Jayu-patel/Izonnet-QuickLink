@@ -1,8 +1,12 @@
-import { createContext } from "react";
+import { createContext, useEffect, useState, useMemo } from "react";
+import {toast} from "react-toastify"
+import axios from "axios"
 
 export const AppContext = createContext()
 
 const AppContextProvider=({children})=>{
+
+    const [specialities, setSpecialities] = useState([])
 
     const months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -19,10 +23,33 @@ const AppContextProvider=({children})=>{
         return age
     }
 
-    const value = {
-        slotDateFormat,
-        calculateAge
+    const getSpeciality=async()=>{
+        try{
+            axios.get(`${import.meta.env.VITE_BACKEND_URL}/speciality/get-all-specialities`)
+            .then(res=>{
+                if(res?.status === 200){
+                    setSpecialities(res?.data?.specialities)
+                    console.log(res?.data?.specialities)
+                }
+            })
+            .catch((err) => {
+                if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message);
+                }
+            });
+        }
+        catch(err) {
+            toast.error(err.message)
+        }
     }
+
+    useEffect(()=>{getSpeciality()},[])
+
+    const value = useMemo(()=>({
+        slotDateFormat,
+        calculateAge,
+        specialities
+    }),[specialities])
     return (
         <AppContext.Provider value={value}>
             {children}

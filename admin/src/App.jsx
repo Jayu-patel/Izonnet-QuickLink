@@ -19,6 +19,8 @@ import EditDoctor from './pages/Admin/EditDoctor'
 import AddSpeciality from './pages/Admin/AddSpeciality'
 import Specialities from './pages/Admin/Specialities'
 import EditSpeciality from './pages/Admin/EditSpeciality'
+import Admin from './pages/Admin/Admin'
+import AddNewAdmin from './pages/Admin/AddNewAdmin'
 
 function App() {
   const {aToken} = useContext(AdminContext)
@@ -44,6 +46,8 @@ function App() {
           <Route path='/specialities' element={<Specialities/>} />
           <Route path='/add-speciality' element={<AddSpeciality/>} />
           <Route path='/edit-speciality/:id' element={<EditSpeciality/>} />
+          <Route path='/admin' element={<Admin/>} />
+          <Route path='/add-new-admin' element={<AddNewAdmin/>} />
 
           <Route path='/doctor-dashboard' element={<DoctorDashboard/>} />
           <Route path='/doctor-appointments' element={<DoctorAppointment/>} />

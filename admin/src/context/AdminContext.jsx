@@ -6,10 +6,12 @@ export const AdminContext = createContext()
 
 const AdminContextProvider = ({ children }) => {
     const [aToken, setAToken] = useState('');
+    const [id, setId] = useState('')
     const [doctors, setDoctors] = useState([]);
     const [appointments, setAppointments] = useState([])
     const [dashData, setDeshData] = useState([])
     const [specialities, setSpecialities] = useState([])
+    const [adminProfile, setAdminProfile] = useState([])
 
     const months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -72,20 +74,20 @@ const AdminContextProvider = ({ children }) => {
 
     const getAllAppointments=async()=>{
         try{
-        axios.get(`${import.meta.env.VITE_BACKEND_URL}/admin/getAllApointments`, {headers: {Authorization: `Bearer ${localStorage.getItem('adminToken')}`}})
-        .then(res=>{
-            if(res?.status === 200){
-            setAppointments(res?.data?.appointments)
-            }
-        })
-        .catch((err)=>{
-            if(err?.response?.data?.message){
-            toast.error(err?.response?.data?.message);
-            }
-        });
+            axios.get(`${import.meta.env.VITE_BACKEND_URL}/admin/getAllApointments`, {headers: {Authorization: `Bearer ${localStorage.getItem('adminToken')}`}})
+            .then(res=>{
+                if(res?.status === 200){
+                    setAppointments(res?.data?.appointments)
+                }
+            })
+            .catch((err)=>{
+                if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message);
+                }
+            });
         }
         catch(err){
-        toast.error(err.message)
+            toast.error(err.message)
         }
     }
 
@@ -127,7 +129,7 @@ const AdminContextProvider = ({ children }) => {
         )
         .then(res=>{
             if(res.status === 200){
-            setDeshData(res.data.dashData)
+             setDeshData(res.data.dashData)
             }
         })
         .catch((err) => {
@@ -160,12 +162,32 @@ const AdminContextProvider = ({ children }) => {
         });
     }
 
+    const getAdminProfile=async(id)=>{
+        try{
+            axios.get(`${import.meta.env.VITE_BACKEND_URL}/admin/get-doctor-profile/${id}`, {headers: {Authorization: `Bearer ${localStorage.getItem('adminToken')}`}})
+            .then(res=>{
+                if(res?.status === 200){
+                    setAdminProfile(res?.data)
+                }
+            })
+            .catch((err)=>{
+                if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message);
+                }
+            });
+        }
+        catch(err){
+            toast.error(err.message)
+        }
+    }
+
     useEffect(()=>{
         getSpecialities();
     },[])
 
     const value = {
         aToken, setAToken,
+        id, setId,
         doctors, getDoctorsData,
         changeAvailablity,
         appointments, getAllAppointments,
@@ -173,12 +195,16 @@ const AdminContextProvider = ({ children }) => {
         slotDateFormat,
         cancelAppointment,
         dashData, getDashData,
-        specialities, getSpecialities
+        specialities, getSpecialities,
+        adminProfile, getAdminProfile
     };
 
     useEffect(()=>{
         const token = localStorage.getItem('adminToken') || '';
         setAToken(token);
+
+        const id = localStorage.getItem('adminId') || '';
+        setId(id)
     },[])
     return (
     <AdminContext.Provider value={value}>

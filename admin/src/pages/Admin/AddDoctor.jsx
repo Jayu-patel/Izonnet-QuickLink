@@ -1,9 +1,11 @@
 import axios from 'axios';
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { toast } from 'react-toastify';
+import { AppContext } from '../../context/AppContext';
 
 export default function AddDoctor() {
 
+  const {specialities} = useContext(AppContext)
   const [docImage, setDocImage] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -134,16 +136,9 @@ export default function AddDoctor() {
             <div className='flex-1 flex flex-col gap-1'>
               <p>Experience</p>
               <select value={experience} onChange={(e)=>{setExperience(e.target.value)}} className='border rounded px-3 py-2' name="experience">
-                <option value="1 Year">1 Year</option>
-                <option value="2 Year">2 Year</option>
-                <option value="3 Year">3 Year</option>
-                <option value="4 Year">4 Year</option>
-                <option value="5 Year">5 Year</option>
-                <option value="6 Year">6 Year</option>
-                <option value="7 Year">7 Year</option>
-                <option value="8 Year">8 Year</option>
-                <option value="9 Year">9 Year</option>
-                <option value="10 Year">10 Year</option>
+                {
+                  [1,2,3,4,5,6,7,8,9,10].map(e=> <option key={e} value={e}>{e} Year</option>)
+                }
               </select>
             </div>
 
@@ -159,12 +154,11 @@ export default function AddDoctor() {
             <div className='flex-1 flex flex-col gap-1'>
               <p>Speciality</p>
               <select value={speciality} onChange={(e)=>{setSpeciality(e.target.value)}} className='border rounded px-3 py-2' name="" id="">
-                <option value="General physician">General physician</option>
-                <option value="Gynecologist">Gynecologist</option>
-                <option value="Dermatologist">Dermatologist</option>
-                <option value="Pediatricians">Pediatricians</option>
-                <option value="Neurologist">Neurologist</option>
-                <option value="Gastroenterologist">Gastroenterologist</option>
+                {
+                  specialities?.map((element,i)=>{
+                    return <option key={i} value={element.speciality}>{element.speciality}</option>
+                  })
+                }
               </select>
             </div>
 

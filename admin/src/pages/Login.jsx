@@ -14,7 +14,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false);
 
-    const {setAToken} = useContext(AdminContext)
+    const {setAToken, setId} = useContext(AdminContext)
     const {setDToken} = useContext(DoctorContext)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const navigate = useNavigate()
@@ -38,7 +38,9 @@ export default function Login() {
                     const {data} = response
                     if(data.success){
                         localStorage.setItem('adminToken', data.token)
+                        localStorage.setItem('adminId', data.id)
                         setAToken(data.token)
+                        setId(data.id)
                         toast.success('Login Successful')
                         navigate('/admin-dashboard')
                     }

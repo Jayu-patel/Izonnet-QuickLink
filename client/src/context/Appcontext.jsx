@@ -23,6 +23,26 @@ const AppContextProvider = ({children}) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [doctors, setDoctors] = useState([]);
+  const [speciality, setSpeciality] = useState([])
+
+  const getSpeciality=async()=>{
+    try{
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/speciality/get-all-specialities`)
+      .then(res=>{
+        if(res?.status === 200){
+          setSpeciality(res?.data?.specialities)
+        }
+      })
+      .catch((err) => {
+        if(err?.response?.data?.message){
+          toast.error(err?.response?.data?.message);
+        }
+      });
+    }
+    catch(err) {
+      toast.error(err.message)
+    }
+  }
 
   useEffect(() => {
     if (token) localStorage.setItem("token", token);
@@ -60,6 +80,7 @@ const AppContextProvider = ({children}) => {
 
   useEffect(() => {
     getDoctorsData();
+    getSpeciality()
   }, []);
 
   const fetchProfile = useCallback(async (id) => {
@@ -131,7 +152,8 @@ const AppContextProvider = ({children}) => {
     isLoading,
     reloadProfile,
     logout,
-  }), [token, userId, userData, isLoading, doctors]);
+    speciality, getSpeciality
+  }), [token, userId, userData, doctors, speciality]);
 
   return (
     <AppContext.Provider value={value}>

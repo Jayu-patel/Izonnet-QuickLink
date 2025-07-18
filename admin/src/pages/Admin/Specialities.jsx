@@ -69,25 +69,58 @@ export default function Specialities() {
                 {
                     specialities?.map((item, index)=>{
                         return (
-                            <div className="border border-indigo-200 rounded-xl max-w-56 overflow-hidden p-3" key={index}>
+                            <div className="border border-indigo-200 rounded-xl max-w-44 overflow-hidden p-3" key={index}>
                                 <img className="bg-indigo-50 mx-auto" src={item.image} alt="" />
                                 <div className="p-4">
-                                    <p className="text-neutral-800 text-lg font-medium">{item.speciality}</p>
+                                    <p className="text-neutral-800 text-sm font-medium">{item.speciality}</p>
                                 </div>
                                 <div className="flex gap-2 justify-around [&_button]:cursor-pointer">
                                     <button
                                         onClick={()=>{navigate(`/edit-speciality/${item._id}`)}}
-                                        className="border border-blue-500 rounded-2xl px-6 py-2 text-blue-500 hover:text-white hover:bg-blue-500 transition-all duration-100"
+                                        className="border text-sm border-blue-500 rounded-2xl px-4 py-2 text-blue-500 hover:text-white hover:bg-blue-500 transition-all duration-100"
                                     >Edit</button>
                                     <button
                                         onClick={()=>{handleSubmit(item._id)}}
-                                        className="border border-red-400 rounded-2xl px-6 py-2 text-red-400 hover:text-white hover:bg-red-400 transition-all duration-100"
+                                        className="border text-sm border-red-400 rounded-2xl px-4 py-2 text-red-400 hover:text-white hover:bg-red-400 transition-all duration-100"
                                     >Delete</button>
                                 </div>
                             </div>
                         )
                     })
                 }
+            </div>
+
+            <div className="hidden w-[40%] mx-auto justify-between mt-[100px] mb-[800px]">
+
+                <div>
+                    <div className="flex items-center gap-3">
+                        <input type="checkbox" name="check1" id="check1" />
+                        <label htmlFor="check1">Tourism-1</label>
+                    </div>
+                    <div className="flex my-4 gap-3">
+                        <input type="checkbox" name="check2" id="check2" />
+                        <label htmlFor="check1">Tourism-2</label>
+                    </div>
+                    <div className="flex gap-3">
+                        <input type="checkbox" name="check1" id="check1" />
+                        <label htmlFor="check1">Tourism-3</label>
+                    </div>
+                </div>
+
+                <div>
+                    <div className="flex gap-3">
+                        <input type="checkbox" name="check1" id="check1" />
+                        <label htmlFor="check1">Tourism-4</label>
+                    </div>
+                    <div className="flex my-4 gap-3">
+                        <input type="checkbox" name="check2" id="check2" />
+                        <label htmlFor="check1">Tourism-5</label>
+                    </div>
+                    <div className="flex gap-3">
+                        <input type="checkbox" name="check1" id="check1" />
+                        <label htmlFor="check1">Tourism-6</label>
+                    </div>
+                </div>
             </div>
 
         </div>

@@ -36,6 +36,9 @@ export default function ResetPassword() {
         )
         .then(res=>{
             if(res.status === 200) toast.success(res.data.message);
+            setPassword("")
+            setConfirmPassword("")
+            navigate("/login")
         })
         .catch((err) =>{
             if(err?.response?.data?.message){
