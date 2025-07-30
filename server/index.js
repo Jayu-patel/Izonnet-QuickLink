@@ -21,8 +21,8 @@ connectCloudinary()
 const app = express()
 
 const allowedOrigin = [
-  'http://localhost:5173',
-  'http://localhost:5174'
+  process.env.FRONTEND_USER_URL,
+  process.env.FRONTEND_ADMIN_URL
 ]
 
 app.use(cors({
@@ -58,6 +58,7 @@ app.use("/api/payment", paymentRoutes)
 app.use("/api/speciality", specialityRoutes)
 app.use("/auth", authRoutes)
 
-app.listen(8000, ()=>{
+const port = process.env.PORT || 8000
+app.listen(port, ()=>{
     console.log("server is running on port 8000")
 })

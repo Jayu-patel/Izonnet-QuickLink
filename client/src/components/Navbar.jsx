@@ -63,7 +63,7 @@ export default function Navbar() {
             )
           })
         }
-        <a href="http://localhost:5174" target="_blank" className='border my-auto px-2.5 py-0.5 rounded-full border-gray-500'>Admin panel</a>
+        <a href={`${import.meta.env.VITE_ADMIN_URL}`} target="_blank" className='border my-auto px-2.5 py-0.5 rounded-full border-gray-500'>Admin panel</a>
       </ul>
       <div className='flex items-center gap-4'>
         {
@@ -94,7 +94,7 @@ export default function Navbar() {
               <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
                 <NavLink className='px-4 py-2 rounded inline-block' onClick={()=>setShowMenu(false)} to={"/"}>HOME</NavLink>
                 <NavLink className='px-4 py-2 rounded inline-block' onClick={()=>setShowMenu(false)} to={"/doctors"}>ALL DOCTORS</NavLink>
-                <a href="http://localhost:5174" target="_blank" className='border my-auto px-2.5 py-0.5 rounded-full border-gray-500'>Admin panel</a>
+                <a href={`${import.meta.env.VITE_ADMIN_URL}`} target="_blank" className='border my-auto px-2.5 py-0.5 rounded-full border-gray-500'>Admin panel</a>
               </ul>
             </div>
           </div> :

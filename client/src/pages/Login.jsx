@@ -98,7 +98,7 @@ export default function page() {
             <p>Please {state === 'Sign Up' ? 'sign up' : 'log in'} to book appointment</p>
 
             <div className='w-full grid place-items-center p-1'>
-                    <GoogleButton onClick={()=>{window.location.href = "http://localhost:8000/auth/google";}} label={state === 'Sign Up' ? 'Sign up with Google' : 'Sign in with Google'} style={{scale: "0.8"}}/>
+                    <GoogleButton onClick={()=>{window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL }} label={state === 'Sign Up' ? 'Sign up with Google' : 'Sign in with Google'} style={{scale: "0.8"}}/>
             </div>
             <div className="flex items-center w-full">
                 <div className="flex-grow border-t border-gray-300"></div>

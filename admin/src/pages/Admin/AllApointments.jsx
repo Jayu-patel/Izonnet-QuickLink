@@ -54,7 +54,7 @@ export default function Appointments() {
 
         {
           appointments?.map((item,index)=>(
-            <div key={index} className='flex flex-wrap justify-between max-sm:gap sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50'>
+            <div key={index} className='hidden max-sm:gap-1 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50'>
               <p>{index+1}</p>
               <div className='flex items-center gap-2'>
                 <img className='w-8 rounded-full' src={item?.userId?.profile} alt="" />
@@ -77,6 +77,48 @@ export default function Appointments() {
             </div>
           ))
         }
+        {/* ------------------------------ mobile ------------------------------ */}
+        <div className='sm:hidden bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm'>
+          {appointments?.map((item, index) => (
+            <div key={index} className='border-b px-4 py-3 text-gray-700 text-sm'>
+              <div className='flex justify-between mb-2'>
+                <span className='font-semibold'>#{index + 1}</span>
+                {item?.cancelled ? (
+                  <span className='text-red-500 text-xs font-semibold'>Cancelled</span>
+                ) : item.isCompleted ? (
+                  <span className='text-green-500 text-xs font-semibold'>Completed</span>
+                ) : (
+                  <img
+                    onClick={() => handleSubmit(item._id)}
+                    src="/cancel_icon.svg"
+                    alt="Cancel"
+                    className='cursor-pointer'
+                  />
+                )}
+              </div>
+
+              <div className='flex items-center gap-2 mb-2'>
+                <img className='w-7 h-7 rounded-full' src={item?.userId?.profile} alt="" />
+                <div>
+                  <p className='font-medium'>{item?.userId?.username}</p>
+                  <p className='text-xs text-gray-500'>Age: {calculateAge(item?.userId?.dob)}</p>
+                </div>
+              </div>
+
+              <div className='mb-2'>
+                <p className='text-gray-600'>🗓 {slotDateFormat(item.slotDate)}, {item.slotTime}</p>
+              </div>
+
+              <div className='flex items-center gap-2 mb-2'>
+                <img className='w-7 h-7 rounded-full bg-gray-200' src={item?.docId?.image} alt="" />
+                <p>{item?.docId?.name}</p>
+              </div>
+
+              <p className='text-gray-700'> ${item?.amount}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   )
