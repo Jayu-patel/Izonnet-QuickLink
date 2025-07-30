@@ -159,7 +159,7 @@ const getOtp=async(req,res)=>{
 
         await sendEmail(email, "OTP", `Dear user, \nYour Otp for password recovery is ${otp}`);
 
-        return res.status(200).json({message: "Otp is sent you email"})
+        return res.status(200).json({message: "Otp is sent you email", otp})
 
     }
     catch(error){

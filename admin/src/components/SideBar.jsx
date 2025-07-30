@@ -21,7 +21,7 @@ export default function SideBar() {
         { href: '/add-doctor', icon: <AddBoxIcon/>, label: 'Add Doctor' },
         { href: '/doctor-list', icon: <FormatListNumberedIcon/>, label: 'Doctors List' },
         { href: '/specialities', icon: <BloodtypeIcon/>, label: 'Specialities' },
-        { href: '/admin', icon: <AdminPanelSettingsIcon/>, label: 'Admin' }
+        { href: '/admin', icon: <AdminPanelSettingsIcon/>, label: 'Admin' },
     ];
 
     const doctorNavlinks = [

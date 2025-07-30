@@ -43,7 +43,7 @@ export default function AdminNavbar() {
             <h1 onClick={()=>{aToken ? navigate('/admin-dashboard') : navigate('/doctor-dashboard')}} className='text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold cursor-pointer'>QuickClinic</h1>
             <p className='border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600 text-xs'>{aToken ? 'Admin' : 'Doctor'}</p>
         </div>
-        <button onClick={()=>{setShowPopup(true)}} className='cursor-pointer bg-[#5f6fff] text-white text-sm px-10 py-2 rounded-full'>Logout</button>
+        <button onClick={()=>{setShowPopup(true)}} className='cursor-pointer bg-[#5f6fff] text-white text-sm px-10 py-2 rounded-full shadow-[1px_4px_12px_rgba(0,0,0,0.2)]'>Logout</button>
     </div> 
     )
 }

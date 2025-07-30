@@ -11,6 +11,7 @@ export default function MyAppointment() {
     const {userId, getDoctorsData} = useContext(AppContext)
     const [appointments, setAppointsments] = useState([])
     const [loading, setLoading] = useState(false)
+    const [btnLoading, setBtnLoading] = useState(false)
     const months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     const navigate = useNavigate()
@@ -79,6 +80,7 @@ export default function MyAppointment() {
     }
 
     const makePayment=async(amount,appointmentId,name)=>{
+        setBtnLoading(true)
         try{
             axios.post(`${import.meta.env.VITE_BACKEND_URL}/payment/create-checkout-session`, 
                 {appointmentId, amount, name},
@@ -92,17 +94,20 @@ export default function MyAppointment() {
                     const stripe = await stripePromise;
                     localStorage.setItem("sessionID", res.data.id)
                     stripe.redirectToCheckout({ sessionId: res.data.id });
+                    setBtnLoading(false)
                 }
             })
             .catch((err) => {
                 if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message);
                 }
+                setBtnLoading(false)
             });
         }
         catch(err){
             console.log(err?.message)
             setLoading(false)
+            setBtnLoading(false)
         }
     }
 
@@ -151,7 +156,7 @@ export default function MyAppointment() {
                         <div></div>
                         <div className='flex flex-col gap-2 justify-end'>
                             { !item.cancelled && item.payment && !item.isCompleted && <button className='sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50'>Paid</button>}
-                            { !item.cancelled && !item.payment && !item.isCompleted && <button onClick={()=>{makePayment(item.amount,item._id, item.docId.name)}} className='cursor-pointer text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-[#5f6fff] hover:text-white transition-all duration-300'>Pay Online</button> }
+                            { !item.cancelled && !item.payment && !item.isCompleted && <button onClick={()=>{makePayment(item.amount,item._id, item.docId.name)}} className='cursor-pointer text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-[#5f6fff] hover:text-white transition-all duration-300'> {btnLoading ? "Loading..." : "Pay Online"} </button> }
                             { !item.cancelled && !item.isCompleted && <button onClick={()=>{cancelAppointment(item._id)}} className='cursor-pointer text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel Appointment</button> }
                             { item.cancelled && !item.isCompleted && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Appontment Cancelled</button>}
                             { item.isCompleted && <button className='sm:min-w-48 py-2 border border-green-500 rounded text-green-500'>Completed</button> }

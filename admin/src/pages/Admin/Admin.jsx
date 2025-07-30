@@ -96,7 +96,7 @@ export default function Admin() {
     return (
     <div className='m-5 w-full md:w-[60%]'>
         <div className='flex flex-col md:flex-row gap-4'>
-            <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all shadow-[0_8px_18px_rgba(0,0,0,0.2)]'>
+            <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all shadow-[0_6px_14px_rgba(0,0,0,0.2)]'>
                 <img className='w-14' src={"/patients_icon.svg"} alt="" />
                 <div>
                     <p className='text-xl font-semibold text-gray-600'>{adminProfile.totalAdmins}</p>

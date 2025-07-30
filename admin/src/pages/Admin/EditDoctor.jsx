@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AdminContext } from '../../context/AdminContext'
 import axios from 'axios'
@@ -181,7 +181,7 @@ export default function EditDoctor() {
                 </div>
 
                 <div className='flex gap-2 pt-2'>
-                    <input checked={!!docData.available} onChange={()=> isEdit && setDocData(prev=> ({...prev, available: !prev.available})) } type="checkbox" />
+                    <input className={`${isEdit ? "cursor-pointer" : ""}`} checked={!!docData.available} onChange={()=> isEdit && setDocData(prev=> ({...prev, available: !prev.available})) } type="checkbox" />
                     <label htmlFor="">Available</label>
                 </div>
 

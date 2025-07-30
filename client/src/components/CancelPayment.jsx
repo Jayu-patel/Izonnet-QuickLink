@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function CancelPayment() {
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh-64px)] bg-red-100">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-70px)] mt-[-20px]">
         <XCircleIcon className="text-red-600 w-24 h-24" />
         <h1 className="text-3xl font-bold text-red-700 mt-4">Payment Failed!</h1>
         <p className="text-lg text-red-800 mt-2">Something went wrong. Please try again.</p>

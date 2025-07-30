@@ -18,7 +18,7 @@ export default function GenerateOtp() {
             if(!email) { toast.error("Please Enter your email!"); return setLoading(false)}
             if(email.includes(" ") || !emailRegex.test(email)) { toast.error("Please enter a valid email address."); return  setLoading(false)}
 
-            axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/generate-otp/${email}`)
+            axios.get(`${import.meta.env.VITE_BACKEND_URL}/doctor/generate-otp/${email}`)
             .then(res=>{
                 if(res.status === 200){
                     toast.success(res.data.message)
@@ -39,7 +39,7 @@ export default function GenerateOtp() {
             if(!otp){ toast.error("Please enter otp!"); return setLoading(false) }
             if(otp.length !== 6){ toast.error("OTP must be exactly 6 digits"); return setLoading(false) }
 
-            axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verify`,{email, otp})
+            axios.post(`${import.meta.env.VITE_BACKEND_URL}/doctor/verify`,{email, otp})
             .then(res=>{
                 if(res.status === 200){
                     toast.success(res.data.message)
@@ -59,7 +59,7 @@ export default function GenerateOtp() {
         }
     }
     return (
-        <div className='min-h-[80vh] flex items-center'>
+        <div className='min-h-[100vh] flex items-center'>
             <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg'>
                 <p className='text-2xl font-semibol'>{state === 'generate' ? 'Reset Password via OTP' : 'Verify OTP'}</p>
                 <p>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function DoctorsList() {
 
-  const {doctors, getDoctorsData, changeAvailablity} = useContext(AdminContext)
+  const {doctors, getDoctorsData} = useContext(AdminContext)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function DoctorsList() {
                   <p className='text-neutral-800 text-lg font-medium'>{doctor.name}</p>
                   <p className='text-zinc-600 text-sm'>{doctor.speciality}</p>
                   <div className='mt-2 flex items-center gap-1 text-sm'>
-                    <input onChange={()=>changeAvailablity(doctor._id)} type="checkbox" checked={doctor.available} id="" />
+                    <input type="checkbox" readOnly checked={doctor.available} id="" />
                     <p className=''>Available</p>
                   </div>
                 </div>

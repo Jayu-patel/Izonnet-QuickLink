@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom'
 import { DoctorContext } from '../context/DoctorContext';
 import { AdminContext } from '../context/AdminContext';
@@ -39,6 +38,7 @@ export default function Login() {
                     if(data.success){
                         localStorage.setItem('adminToken', data.token)
                         localStorage.setItem('adminId', data.id)
+                        localStorage.removeItem('doctorToken')
                         setAToken(data.token)
                         setId(data.id)
                         toast.success('Login Successful')
@@ -66,6 +66,7 @@ export default function Login() {
                     const {data} = response
                     if(data.success){
                         localStorage.setItem('doctorToken', data.token)
+                        localStorage.removeItem('adminToken')
                         setDToken(data.token)
                         toast.success('Login Successful')
                         navigate('/doctor-dashboard')
@@ -133,6 +134,12 @@ export default function Login() {
                 state === 'Admin' ? 
                 <p className=''>Doctor Login? <span className='text-[#5f6fff] underline cursor-pointer' onClick={() => setState('Doctor')}>Click here</span></p> :
                 <p className=''>Admin Login? <span className='text-[#5f6fff] underline cursor-pointer' onClick={() => setState('Admin')}>Click here</span></p>
+            }
+            {
+                state === 'Admin' ?
+                <></>:
+                // <p className=''>Doctor Login? <span className='text-[#5f6fff] underline cursor-pointer' onClick={() => setState('Doctor')}>Click here</span></p> :
+                <p className=''>Forgot Password? <span className='text-[#5f6fff] underline cursor-pointer' onClick={() => {navigate("/generate-otp")}}>Click here</span></p>
             }
             {/* <button 
                 className='mt-1 border px-2.5 py-1 rounded-full 

@@ -2,7 +2,10 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const Doctor = require('../models/Doctor')
 const Appointment = require('../models/Appointment')
+const otpGenerator = require("otp-generator")
+const Otp = require('../models/Otp')
 const cloudinary = require('cloudinary').v2
+const sendEmail = require('../utils/mailer')
 
 const login=async(req,res)=>{
     try{
@@ -172,6 +175,77 @@ const updateProfile=async(req,res)=>{
     }
 }
 
+const generateOtp=async(req,res)=>{
+    try{
+        const {email} = req.params
+
+        const doctorExists = await Doctor.findOne({email})
+        if(!doctorExists){
+            return res.status(404).json({message: "Doctor does not exists!"})
+        }
+
+        const otp =  otpGenerator.generate(6,{
+            lowerCaseAlphabets: false, 
+            upperCaseAlphabets: false, 
+            specialChars: false
+        })
+
+        await Otp.create({
+            email,
+            otp,
+            expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+        });
+
+        await sendEmail(email, "OTP", `Dear ${doctorExists.name}, \nYour Otp for password recovery is ${otp}`);
+        return res.status(200).json({message: "Otp is sent you email", otp})
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
+const verifyOtp=async(req,res)=>{
+    try{
+        const { email, otp } = req.body;
+
+        const otpDoc = await Otp.findOne({ email, otp });
+        if (!otpDoc || otpDoc.isUsed) return res.status(400).json({ message: 'Invalid or used OTP' });
+        if (otpDoc.expiresAt < new Date()) return res.status(400).json({ message: 'OTP expired' });
+
+        otpDoc.isUsed = true;
+        await otpDoc.save();
+
+        const token = jwt.sign({ email }, process.env.DOCTOR_JWT_SECRET, { expiresIn: '10m' });
+
+        return res.status(200).json({ message: 'OTP verified', token });
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
+const resetPassword=async(req,res)=>{
+    try{
+        const {token, newPassword} = req.body
+
+        const decoded = jwt.verify(token, process.env.DOCTOR_JWT_SECRET)
+        if(!decoded){
+            return res.status(400).json({message: "session token expired"})
+        }
+        const email = decoded.email;
+
+        const doctor = await Doctor.findOne({ email });
+        if (!doctor) return res.status(404).json({ message: 'Doctor not found' });
+        doctor.password = await bcrypt.hash(newPassword, 10);
+        await doctor.save();
+
+        res.status(200).json({ message: 'Password reset successfully' });
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
 module.exports = {
     login,
     getAllDoctorsData,
@@ -180,5 +254,8 @@ module.exports = {
     appointmentCancel,
     dashboard,
     doctorProfile,
-    updateProfile
+    updateProfile,
+    generateOtp,
+    verifyOtp,
+    resetPassword,
 }

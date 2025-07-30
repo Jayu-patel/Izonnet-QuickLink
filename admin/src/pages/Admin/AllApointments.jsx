@@ -36,9 +36,9 @@ export default function Appointments() {
           showPopup={showPopup}
           handleConfirm={handleConfirm}
           handleCancel={handleCancel}
-          header={"Remove Appointment"}
-          message={"Are you sure you want to remove this appointment?"}
-          btnMessage={"Remove"}
+          header={"Cancel Appointment"}
+          message={"Are you sure you want to cancel this appointment?"}
+          btnMessage={"Proceed"}
       />
       <p className='mb-3 md:text-2xl text-xl font-semibold'>All Appointments</p>
       <div className='bg-white border rounded text-sm max-h-[80vh] overflow-y-scroll'>

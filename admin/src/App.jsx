@@ -21,6 +21,8 @@ import Specialities from './pages/Admin/Specialities'
 import EditSpeciality from './pages/Admin/EditSpeciality'
 import Admin from './pages/Admin/Admin'
 import AddNewAdmin from './pages/Admin/AddNewAdmin'
+import GenerateOtp from './pages/Doctor/GenerateOtp'
+import ResetPassword from './pages/Doctor/ResetPassword'
 
 function App() {
   const {aToken} = useContext(AdminContext)
@@ -59,7 +61,11 @@ function App() {
   : (
     <>
       <ToastContainer/>
-      <Login/>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/generate-otp' element={<GenerateOtp />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
+      </Routes>
     </>
   )
 }
