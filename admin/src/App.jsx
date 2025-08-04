@@ -23,6 +23,7 @@ import Admin from './pages/Admin/Admin'
 import AddNewAdmin from './pages/Admin/AddNewAdmin'
 import GenerateOtp from './pages/Doctor/GenerateOtp'
 import ResetPassword from './pages/Doctor/ResetPassword'
+import Messages from './pages/Admin/Messages'
 
 function App() {
   const {aToken} = useContext(AdminContext)
@@ -50,6 +51,7 @@ function App() {
           <Route path='/edit-speciality/:id' element={<EditSpeciality/>} />
           <Route path='/admin' element={<Admin/>} />
           <Route path='/add-new-admin' element={<AddNewAdmin/>} />
+          <Route path='/messages' element={<Messages/>} />
 
           <Route path='/doctor-dashboard' element={<DoctorDashboard/>} />
           <Route path='/doctor-appointments' element={<DoctorAppointment/>} />

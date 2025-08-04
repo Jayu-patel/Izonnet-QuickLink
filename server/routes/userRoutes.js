@@ -11,6 +11,7 @@ router.get("/generate-otp/:email", userController.getOtp)
 router.post("/register", userController.register)
 router.post("/login", userController.login)
 router.post("/verify", userController.verifyOtp)
+router.post("/send-message", userController.contact)
 
 router.put("/update/:id", upload.single('image'), userAuth, userController.updateProfile)
 router.put("/reset-password", userController.resetPassword)

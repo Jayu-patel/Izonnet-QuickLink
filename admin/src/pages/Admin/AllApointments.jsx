@@ -2,10 +2,13 @@ import { useContext, useEffect, useState } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import { AppContext } from '../../context/AppContext'
 import ConfirmationPopup from '../../components/Pop-up'
+import Loader from '../../components/Loader'
 
 export default function Appointments() {
   const {aToken, appointments, getAllAppointments, cancelAppointment} = useContext(AdminContext)
   const {calculateAge, slotDateFormat} = useContext(AppContext)
+
+  const [loading, setLoading] = useState(false)
 
   const [showPopup, setShowPopup] = useState(false)
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null)
@@ -25,11 +28,18 @@ export default function Appointments() {
   
 
   useEffect(()=>{
+    const fetchAppointment=async()=>{
+      setLoading(true);
+      await getAllAppointments()
+      setLoading(false)
+    }
+
     if(aToken){
-      getAllAppointments()
+      fetchAppointment()
     }
   },[aToken])
 
+  if(appointments.length == 0) return <div className='w-[100%] h-[calc(100vh-100px)] grid place-items-center'> <Loader/> </div>
   return (
     <div className='w-full max-w-6xl m-5'>
       <ConfirmationPopup
@@ -54,7 +64,7 @@ export default function Appointments() {
 
         {
           appointments?.map((item,index)=>(
-            <div key={index} className='hidden max-sm:gap-1 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50'>
+            <div key={index} className='hidden max-sm:gap-1 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50 odd:bg-gray-100'>
               <p>{index+1}</p>
               <div className='flex items-center gap-2'>
                 <img className='w-8 rounded-full' src={item?.userId?.profile} alt="" />

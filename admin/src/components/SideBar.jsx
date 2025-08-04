@@ -10,6 +10,7 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import BloodtypeIcon from '@mui/icons-material/Bloodtype';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import EmailIcon from '@mui/icons-material/Email';
 
 export default function SideBar() {
     const { aToken } = useContext(AdminContext)
@@ -22,6 +23,7 @@ export default function SideBar() {
         { href: '/doctor-list', icon: <FormatListNumberedIcon/>, label: 'Doctors List' },
         { href: '/specialities', icon: <BloodtypeIcon/>, label: 'Specialities' },
         { href: '/admin', icon: <AdminPanelSettingsIcon/>, label: 'Admin' },
+        { href: '/messages', icon: <EmailIcon/>, label: 'Messages' },
     ];
 
     const doctorNavlinks = [

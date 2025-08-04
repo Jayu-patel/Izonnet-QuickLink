@@ -7,7 +7,8 @@ const ConfirmationPopup = ({showPopup, handleConfirm, handleCancel, header, mess
             <h2 className="text-lg font-semibold text-gray-800">
               {header}
             </h2>
-            <p className="text-gray-600 mt-2">
+            <p 
+              className="text-gray-600 mt-2 break-words">
               {message}
             </p>
 

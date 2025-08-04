@@ -4,6 +4,7 @@ const Doctor = require('../models/Doctor')
 const Appointment = require('../models/Appointment')
 const User = require('../models/User')
 const Admin = require('../models/Admin')
+const Message = require('../models/Message')
 const cloudinary = require('cloudinary').v2
 
 const login=async(req,res)=>{
@@ -263,6 +264,42 @@ const updatePassword=async(req,res)=>{
     }
 }
 
+const getMessages=async(req,res)=>{
+    try{
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const total = await Message.countDocuments();
+        const totalPages = Math.ceil(total / limit);
+        const messages = await Message.find()
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+        res.json({ messages, currentPage: page, totalPages });
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
+const deleteMessage=async(req,res)=>{
+    try{
+        const {id} = req.params
+
+        const removedMessage = await Message.findByIdAndDelete(id)
+
+        if(!removedMessage) return res.status(400).json({message: "Can not remove message"})
+            
+        return res.status(200).json({message: "Message is removed"});
+        
+
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
 module.exports = {
     login,
     register,
@@ -275,5 +312,7 @@ module.exports = {
     removeDoctor,
     getAdminProfile,
     updateProfile,
-    updatePassword
+    updatePassword,
+    getMessages,
+    deleteMessage
 }

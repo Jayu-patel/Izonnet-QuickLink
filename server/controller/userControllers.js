@@ -5,6 +5,7 @@ const cloudinary = require('cloudinary').v2
 const otpGenerator = require("otp-generator")
 const Otp = require('../models/Otp')
 const sendEmail = require('../utils/mailer')
+const Message = require('../models/Message')
 
 const register=async(req,res)=>{
     try{
@@ -209,6 +210,24 @@ const resetPassword=async(req,res)=>{
     }
 }
 
+const contact=async(req,res)=>{
+    try{
+        const {name, email, message} = req.body
+        
+        if(!name || !email || !message){
+            return res.status(400).json({message: "Provide all fields!"})
+        }
+
+        const newMessage = new Message({name, email, message})
+        await newMessage.save()
+
+        return res.status(200).json({message: "Message sent"})
+    }
+    catch(error){
+        return res.status(500).json({message: error.message})
+    }
+}
+
 module.exports = {
     register,
     login,
@@ -216,5 +235,6 @@ module.exports = {
     getUserById,
     getOtp,
     verifyOtp,
-    resetPassword
+    resetPassword,
+    contact
 }

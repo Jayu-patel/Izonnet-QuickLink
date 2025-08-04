@@ -24,6 +24,8 @@ export default function Navbar() {
   const links = [
     {name: "HOME", href: "/"},
     {name: "ALL DOCTORS", href: "/doctors"},
+    {name: "ABOUT", href: "/about"},
+    {name: "CONTACT", href: "/contact"},
   ]
 
   const removeCookie=(name)=>{
